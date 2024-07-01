@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="chatbox">
+        <div id="chatlog"></div>
+        <input type="text" id="user_input">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userMessage = document.getElementById("user_input").value;
+            $('#chatlog').append('<div>You: ' + userMessage + '</div>');
+            $.ajax({
+                type: 'POST',
+                url: '/ask',
+                data: {'message': userMessage},
+                success: function(response) {
+                    $('#chatlog').append('<div>Bot: ' + response + '</div>');
+                }
+            });
+            document.getElementById("user_input").value = "";
+        }
+    </script>
+</body>
+</html>
